@@ -12,6 +12,10 @@ interface contextInt {
   setNumPears: React.Dispatch<React.SetStateAction<number>>;
   numBananas: number;
   setNumBananas: React.Dispatch<React.SetStateAction<number>>;
+  showTotal: boolean;
+  setShowTotal: React.Dispatch<React.SetStateAction<boolean>>;
+  total: number;
+  setTotal: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Container = styled.div`
@@ -38,6 +42,10 @@ export const context = createContext<contextInt>({
   setNumPears: () => null,
   numBananas: 0,
   setNumBananas: () => null,
+  showTotal: false,
+  setShowTotal: () => null,
+  total: 0,
+  setTotal: () => null,
 });
 
 const App: React.FC = (): JSX.Element => {
@@ -45,7 +53,15 @@ const App: React.FC = (): JSX.Element => {
   const [numApples, setNumApples] = useState<number>(0);
   const [numPears, setNumPears] = useState<number>(0);
   const [numBananas, setNumBananas] = useState<number>(0);
+  const [showTotal, setShowTotal] = useState<boolean>(false);
+  const [total, setTotal] = useState<number>(0);
+
   const data = useFruits();
+
+  const add2Cart = () => {
+    setTotal(numApples + numPears + numBananas);
+    setShowTotal(true);
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -57,6 +73,10 @@ const App: React.FC = (): JSX.Element => {
           setNumPears,
           numBananas,
           setNumBananas,
+          showTotal,
+          setShowTotal,
+          total,
+          setTotal,
         }}
       >
         <Navbar />
@@ -74,7 +94,7 @@ const App: React.FC = (): JSX.Element => {
           alignItems: "center",
         }}
       >
-        <Add>ADD TO CART</Add>
+        <Add onClick={() => add2Cart()}>ADD TO CART</Add>
       </div>
     </div>
   );
