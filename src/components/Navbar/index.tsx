@@ -28,7 +28,11 @@ const Total = styled.span`
 `;
 
 const Navbar = () => {
-  const { showTotal, total } = useContext(context);
+  const { showTotal, total, setShowTotal } = useContext(context);
+
+  if (total === 0) {
+    setShowTotal(false);
+  }
 
   return (
     <NavbarWrapper>
