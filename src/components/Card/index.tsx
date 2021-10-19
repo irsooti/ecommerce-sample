@@ -3,7 +3,8 @@ import mela from "../../assets/mela.png";
 import pera from "../../assets/pera.png";
 import banana from "../../assets/banana.png";
 import React from "react";
-import { useState } from "react";
+import { useContext } from "react";
+import { context } from "../../App";
 
 interface CardInt {
   name: string;
@@ -65,10 +66,14 @@ const Quantity = styled.div`
 `;
 
 const Card: React.FC<CardInt> = ({ name, price }) => {
-  const [numApples, setNumApples] = useState<number>(0);
-  const [numPears, setNumPears] = useState<number>(0);
-  const [numBananas, setNumBananas] = useState<number>(0);
-
+  const {
+    numApples,
+    setNumApples,
+    numPears,
+    setNumPears,
+    numBananas,
+    setNumBananas,
+  } = useContext(context);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event.currentTarget.textContent === "-") {
       switch (event.currentTarget.parentElement?.id) {
