@@ -4,3 +4,10 @@ body {
   font-family: "Roboto";
   margin: 0;
 }
+
+.myBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

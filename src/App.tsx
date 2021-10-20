@@ -88,7 +88,7 @@ const App: React.FC = (): JSX.Element => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div className="myBody">
       <context.Provider
         value={{
           numApples,
@@ -114,16 +114,17 @@ const App: React.FC = (): JSX.Element => {
               return <Card name={x.name} price={x.price} />;
             })}
         </Container>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "sticky",
+          }}
+        >
+          <Add onClick={() => add2Cart()}>ADD TO CART</Add>
+        </div>
       </context.Provider>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Add onClick={() => add2Cart()}>ADD TO CART</Add>
-      </div>
     </div>
   );
 };

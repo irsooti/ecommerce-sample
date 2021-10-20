@@ -11,6 +11,7 @@ const NavbarWrapper = styled.div`
   padding: 20px;
   font-size: 2rem;
   border-bottom: 5px solid whitesmoke;
+  width: 90%;
 `;
 
 const Total = styled.span`
