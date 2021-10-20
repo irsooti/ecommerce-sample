@@ -70,11 +70,17 @@ const App: React.FC = (): JSX.Element => {
     const prices = data.map((x) => x.price);
     console.log(prices);
     const array = [numPears, numApples, numBananas];
-    const ov = prices.reduce((acc, current, i) => {
-      console.log(array[i]);
+    // const ov = prices.reduce((acc, current, i) => {
+    //   console.log(array[i]);
 
-      return current * array[i] + acc;
-    });
+    //   return current * array[i] + acc;
+    // });
+    let ov = 0;
+    for (let i in prices) {
+      ov += prices[i] * array[i];
+    }
+    console.log(ov);
+
     setTotal(numPears + numApples + numBananas);
     setShowTotal(true);
     setClicked(true);
