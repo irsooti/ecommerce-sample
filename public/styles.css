@@ -11,3 +11,11 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.menu {
+  transition: all 4s ease;
+}
+
+menu:focus {
+  opacity: 1;
+}

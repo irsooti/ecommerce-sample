@@ -87,7 +87,7 @@ const Navbar = () => {
       }),
     };
     fetch("/buy", options).then((res: Response) => {
-      console.log(res.status);
+      alert(res.status);
     });
   };
 
