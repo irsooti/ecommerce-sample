@@ -70,9 +70,9 @@ const Navbar = () => {
       {showTotal && <Total>{total}</Total>}
       {showCart && clicked && (
         <Products>
-          <div>Mela: {numApples}</div>
-          <div>Pera: {numPears}</div>
-          <div>Banana: {numBananas}</div>
+          {numPears > 0 && <div>Pera: {numPears}</div>}
+          {numApples > 0 && <div>Mela: {numApples}</div>}
+          {numBananas > 0 && <div>Banana: {numBananas}</div>}
           <div>OVERALL: {overall} €</div>
         </Products>
       )}

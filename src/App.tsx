@@ -57,7 +57,6 @@ export const context = createContext<contextInt>({
 });
 
 const App: React.FC = (): JSX.Element => {
-  // const context = createContext();
   const [numApples, setNumApples] = useState<number>(0);
   const [numPears, setNumPears] = useState<number>(0);
   const [numBananas, setNumBananas] = useState<number>(0);
@@ -69,9 +68,10 @@ const App: React.FC = (): JSX.Element => {
 
   const add2Cart = () => {
     const prices = data.map((x) => x.price);
+    console.log(prices);
     const array = [numPears, numApples, numBananas];
     const ov = prices.reduce((acc, current, i) => {
-      console.log(current);
+      console.log(array[i]);
 
       return current * array[i] + acc;
     });

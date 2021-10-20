@@ -23,10 +23,8 @@ const Title = styled.div`
   text-align: center;
 `;
 
-const Price = styled.div`
-  font-size: 2rem;
+const Price = styled(Title)`
   font-weight: bold;
-  text-align: center;
 `;
 
 const BigWrapper = styled.div`
