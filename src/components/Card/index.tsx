@@ -99,13 +99,13 @@ const Card: React.FC<CardInt> = ({ name, price }) => {
     } else {
       switch (event.currentTarget.parentElement?.id) {
         case "Mela":
-          setNumApples((prevValue: any) => prevValue + 1);
+          setNumApples((prevValue: number) => prevValue + 1);
           break;
         case "Pera":
-          setNumPears((prevValue: any) => prevValue + 1);
+          setNumPears((prevValue: number) => prevValue + 1);
           break;
         case "Banana":
-          setNumBananas((prevValue: any) => prevValue + 1);
+          setNumBananas((prevValue: number) => prevValue + 1);
           break;
         default:
           return;
