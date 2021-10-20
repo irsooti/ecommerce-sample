@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import useFruits from "./hook/useFruits";
 import Card from "./components/Card";
 import styled from "styled-components";
+// import { useRef } from "react";
 
 interface contextInt {
   numApples: number;
@@ -64,6 +65,7 @@ const App: React.FC = (): JSX.Element => {
   const [total, setTotal] = useState<number>(0);
   const [clicked, setClicked] = useState<boolean>(false);
   const [overall, setOverall] = useState<number>(0);
+  // const totale = useRef<number>(0);
   const data = useFruits();
 
   const add2Cart = () => {
@@ -82,6 +84,7 @@ const App: React.FC = (): JSX.Element => {
     console.log(ov);
 
     setTotal(numPears + numApples + numBananas);
+    // totale.current = numPears + numApples + numBananas;
     setShowTotal(true);
     setClicked(true);
     setOverall(ov);
