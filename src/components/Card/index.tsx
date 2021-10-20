@@ -32,6 +32,7 @@ const BigWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin: 0 30px;
 `;
 
 const Purchase = styled.div`
