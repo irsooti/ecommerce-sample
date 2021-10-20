@@ -27,18 +27,55 @@ const Total = styled.span`
   padding-top: 3px;
 `;
 
+const Cart = styled.img`
+  cursor: pointer;
+`;
+
+const Products = styled.div`
+  position: absolute;
+  width: 250px;
+  height: 300px;
+  border: 2px solid whitesmoke;
+  right: 0px;
+  top: 80px;
+  background-color: white;
+`;
+
 const Navbar = () => {
-  const { showTotal, total, setShowTotal } = useContext(context);
+  const {
+    numApples,
+    numPears,
+    numBananas,
+    showTotal,
+    total,
+    setShowTotal,
+    clicked,
+    overall,
+    setOverall,
+  } = useContext(context);
+  const [showCart, setShowCart] = useState<boolean>(false);
 
   if (total === 0) {
     setShowTotal(false);
   }
 
+  const handleClick = () => {
+    setShowCart(!showCart);
+  };
+
   return (
     <NavbarWrapper>
       <div style={{ fontStyle: "italic" }}>e-commerce sample</div>
-      <img style={{ cursor: "pointer" }} src={cartLogo} alt="cart" />
+      <Cart onClick={handleClick} src={cartLogo} alt="cart" />
       {showTotal && <Total>{total}</Total>}
+      {showCart && clicked && (
+        <Products>
+          <div>Mela: {numApples}</div>
+          <div>Pera: {numPears}</div>
+          <div>Banana: {numBananas}</div>
+          <div>OVERALL: {overall} €</div>
+        </Products>
+      )}
     </NavbarWrapper>
   );
 };

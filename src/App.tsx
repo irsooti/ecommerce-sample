@@ -16,6 +16,10 @@ interface contextInt {
   setShowTotal: React.Dispatch<React.SetStateAction<boolean>>;
   total: number;
   setTotal: React.Dispatch<React.SetStateAction<number>>;
+  clicked: boolean;
+  setClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  overall: number;
+  setOverall: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Container = styled.div`
@@ -46,6 +50,10 @@ export const context = createContext<contextInt>({
   setShowTotal: () => null,
   total: 0,
   setTotal: () => null,
+  clicked: false,
+  setClicked: () => null,
+  overall: 0,
+  setOverall: () => null,
 });
 
 const App: React.FC = (): JSX.Element => {
@@ -55,12 +63,22 @@ const App: React.FC = (): JSX.Element => {
   const [numBananas, setNumBananas] = useState<number>(0);
   const [showTotal, setShowTotal] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
-
+  const [clicked, setClicked] = useState<boolean>(false);
+  const [overall, setOverall] = useState<number>(0);
   const data = useFruits();
 
   const add2Cart = () => {
-    setTotal(numApples + numPears + numBananas);
+    const prices = data.map((x) => x.price);
+    const array = [numPears, numApples, numBananas];
+    const ov = prices.reduce((acc, current, i) => {
+      console.log(current);
+
+      return current * array[i] + acc;
+    });
+    setTotal(numPears + numApples + numBananas);
     setShowTotal(true);
+    setClicked(true);
+    setOverall(ov);
   };
 
   return (
@@ -77,6 +95,10 @@ const App: React.FC = (): JSX.Element => {
           setShowTotal,
           total,
           setTotal,
+          clicked,
+          setClicked,
+          overall,
+          setOverall,
         }}
       >
         <Navbar />
