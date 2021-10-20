@@ -42,6 +42,18 @@ const Products = styled.div`
   background-color: white;
 `;
 
+const Checkout = styled.button`
+  width: 150px;
+  height: 50px;
+  background: orangered;
+  border: orangered;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 8px;
+  color: white;
+  margin: 20px 45px;
+`;
+
 const Navbar = () => {
   const {
     numApples,
@@ -64,6 +76,21 @@ const Navbar = () => {
     setShowCart(!showCart);
   };
 
+  const handleCheckout = () => {
+    const options = {
+      method: "POST",
+      body: JSON.stringify({
+        pere: numPears,
+        mele: numApples,
+        banane: numBananas,
+        totale: overall,
+      }),
+    };
+    fetch("/buy", options).then((res: Response) => {
+      console.log(res.status);
+    });
+  };
+
   return (
     <NavbarWrapper>
       <div style={{ fontStyle: "italic" }}>e-commerce sample</div>
@@ -75,6 +102,7 @@ const Navbar = () => {
           {numApples > 0 && <div>Mela: {numApples}</div>}
           {numBananas > 0 && <div>Banana: {numBananas}</div>}
           <div>OVERALL: {overall} €</div>
+          <Checkout onClick={() => handleCheckout()}>Checkout</Checkout>
         </Products>
       )}
     </NavbarWrapper>
