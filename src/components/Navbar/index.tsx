@@ -56,21 +56,30 @@ const Checkout = styled.button`
 
 const Navbar = () => {
   const {
-    numApples,
-    numPears,
-    numBananas,
+    numArticles,
+    setNumArticles,
     showTotal,
     total,
+    setTotal,
     setShowTotal,
     clicked,
     overall,
     setOverall,
+    setCheckedOut,
   } = useContext(context);
   const [showCart, setShowCart] = useState<boolean>(false);
 
-  if (total === 0) {
-    setShowTotal(false);
-  }
+  // if (total === 0) {
+  //   setShowTotal(false);
+  // }
+
+  useEffect(() => {
+    console.log(total);
+  }, [total]);
+
+  useEffect(() => {
+    console.log(numArticles);
+  }, [numArticles]);
 
   const handleClick = () => {
     setShowCart(!showCart);
@@ -80,15 +89,21 @@ const Navbar = () => {
     const options = {
       method: "POST",
       body: JSON.stringify({
-        pere: numPears,
-        mele: numApples,
-        banane: numBananas,
         totale: overall,
       }),
     };
     fetch("/buy", options).then((res: Response) => {
       alert(res.status);
     });
+    setNumArticles([]);
+    setTotal(0);
+    setShowTotal(false);
+    setShowCart(false);
+    setOverall(0);
+    setCheckedOut(true);
+    setTimeout(() => {
+      setCheckedOut(false);
+    }, 1000);
   };
 
   return (
@@ -98,9 +113,16 @@ const Navbar = () => {
       {showTotal && <Total>{total}</Total>}
       {showCart && clicked && (
         <Products>
-          {numPears > 0 && <div>Pera: {numPears}</div>}
-          {numApples > 0 && <div>Mela: {numApples}</div>}
-          {numBananas > 0 && <div>Banana: {numBananas}</div>}
+          {numArticles!.length > 0 &&
+            numArticles!.map((x) => {
+              return (
+                <div>
+                  {x.name}{" "}
+                  <span style={{ color: "grey", fontSize: "1.3rem" }}>x</span>{" "}
+                  {x.quantity}
+                </div>
+              );
+            })}
           <div>OVERALL: {overall} €</div>
           <Checkout onClick={() => handleCheckout()}>Checkout</Checkout>
         </Products>

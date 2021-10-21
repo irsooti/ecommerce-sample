@@ -1,17 +1,20 @@
-import React, { createContext } from "react";
-import { useState, useEffect } from "react";
+import React, { createContext, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import useFruits from "./hook/useFruits";
 import Card from "./components/Card";
 import styled from "styled-components";
+// import { useRef } from "react";
+import { fruitInt } from "./hook/useFruits";
+
+export interface bucket {
+  name: string;
+  quantity: number;
+}
 
 interface contextInt {
-  numApples: number;
-  setNumApples: React.Dispatch<React.SetStateAction<number>>;
-  numPears: number;
-  setNumPears: React.Dispatch<React.SetStateAction<number>>;
-  numBananas: number;
-  setNumBananas: React.Dispatch<React.SetStateAction<number>>;
+  numArticles: bucket[] | undefined;
+  setNumArticles: React.Dispatch<React.SetStateAction<bucket[] | undefined>>;
   showTotal: boolean;
   setShowTotal: React.Dispatch<React.SetStateAction<boolean>>;
   total: number;
@@ -20,6 +23,8 @@ interface contextInt {
   setClicked: React.Dispatch<React.SetStateAction<boolean>>;
   overall: number;
   setOverall: React.Dispatch<React.SetStateAction<number>>;
+  checkedOut: boolean;
+  setCheckedOut: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Container = styled.div`
@@ -40,12 +45,8 @@ const Add = styled.button`
 `;
 
 export const context = createContext<contextInt>({
-  numApples: 0,
-  setNumApples: () => null,
-  numPears: 0,
-  setNumPears: () => null,
-  numBananas: 0,
-  setNumBananas: () => null,
+  numArticles: [{ name: "", quantity: 0 }],
+  setNumArticles: () => null,
   showTotal: false,
   setShowTotal: () => null,
   total: 0,
@@ -54,49 +55,58 @@ export const context = createContext<contextInt>({
   setClicked: () => null,
   overall: 0,
   setOverall: () => null,
+  checkedOut: false,
+  setCheckedOut: () => null,
 });
 
 const App: React.FC = (): JSX.Element => {
-  const [numApples, setNumApples] = useState<number>(0);
-  const [numPears, setNumPears] = useState<number>(0);
-  const [numBananas, setNumBananas] = useState<number>(0);
+  const data = useFruits();
+
+  const [numArticles, setNumArticles] = useState<bucket[] | undefined>([]);
+
   const [showTotal, setShowTotal] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
   const [clicked, setClicked] = useState<boolean>(false);
   const [overall, setOverall] = useState<number>(0);
-  const data = useFruits();
+  // const totale = useRef<number>(0);
+  const [checkedOut, setCheckedOut] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(numArticles);
+  }, [numArticles]);
+
+  const calculate = (): number => {
+    let ov = 0;
+    for (let x of data) {
+      for (let y of numArticles!) {
+        if (y.name === x.name) {
+          ov += y.quantity * x.price;
+        }
+      }
+    }
+    return ov;
+  };
 
   const add2Cart = () => {
-    const prices = data.map((x) => x.price);
-    console.log(prices);
-    const array = [numPears, numApples, numBananas];
-    // const ov = prices.reduce((acc, current, i) => {
-    //   console.log(array[i]);
-
-    //   return current * array[i] + acc;
-    // });
-    let ov = 0;
-    for (let i in prices) {
-      ov += prices[i] * array[i];
-    }
-    console.log(ov);
-
-    setTotal(numPears + numApples + numBananas);
+    setTotal(() => {
+      let t = 0;
+      numArticles!.forEach((x) => {
+        t += x.quantity;
+      });
+      return t;
+    });
+    let overall = calculate();
     setShowTotal(true);
     setClicked(true);
-    setOverall(ov);
+    setOverall(overall);
   };
 
   return (
     <div className="myBody">
       <context.Provider
         value={{
-          numApples,
-          setNumApples,
-          numPears,
-          setNumPears,
-          numBananas,
-          setNumBananas,
+          numArticles,
+          setNumArticles,
           showTotal,
           setShowTotal,
           total,
@@ -105,6 +115,8 @@ const App: React.FC = (): JSX.Element => {
           setClicked,
           overall,
           setOverall,
+          checkedOut,
+          setCheckedOut,
         }}
       >
         <Navbar />

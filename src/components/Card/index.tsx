@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import mela from "../../assets/mela.png";
-import pera from "../../assets/pera.png";
-import banana from "../../assets/banana.png";
 import React from "react";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { context } from "../../App";
+import { bucket } from "../../App";
 
-interface CardInt {
+export interface cardInt {
   name: string;
   price: number;
 }
@@ -60,82 +58,91 @@ const Quantity = styled.div`
   border-radius: 5px;
   margin-left: 5px;
   text-align: center;
-  cursor: pointer;
   box-shadow: none;
 `;
 
-const Card: React.FC<CardInt> = ({ name, price }) => {
-  const {
-    numApples,
-    setNumApples,
-    numPears,
-    setNumPears,
-    numBananas,
-    setNumBananas,
-  } = useContext(context);
+const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
+  const { numArticles, setNumArticles, checkedOut } = useContext(context);
+
+  const [qty, setQty] = useState<number>(0);
+
+  useEffect(() => {
+    setQty(0);
+  }, [checkedOut]);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    let article = event.currentTarget.parentElement!.id;
+
     if (event.currentTarget.textContent === "-") {
-      switch (event.currentTarget.parentElement?.id) {
-        case "Mela":
-          setNumApples((prevValue: number) => {
-            if (prevValue > 0) return prevValue - 1;
-            else return 0;
-          });
-          break;
-        case "Pera":
-          setNumPears((prevValue: number) => {
-            if (prevValue > 0) return prevValue - 1;
-            else return 0;
-          });
-          break;
-        case "Banana":
-          setNumBananas((prevValue: number) => {
-            if (prevValue > 0) return prevValue - 1;
-            else return 0;
-          });
-          break;
-        default:
-          return;
-      }
+      setNumArticles((prevValues: bucket[] | undefined) => {
+        for (let x of prevValues!) {
+          if (x.name === article && x.quantity > 0) {
+            let productObject: bucket = {
+              name,
+              quantity: --x.quantity,
+            };
+            setQty((prev) => --prev);
+            prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
+            return prevValues;
+          }
+        }
+      });
     } else {
-      switch (event.currentTarget.parentElement?.id) {
-        case "Mela":
-          setNumApples((prevValue: number) => prevValue + 1);
-          break;
-        case "Pera":
-          setNumPears((prevValue: number) => prevValue + 1);
-          break;
-        case "Banana":
-          setNumBananas((prevValue: number) => prevValue + 1);
-          break;
-        default:
-          return;
-      }
+      setNumArticles((prevValues: any): any => {
+        let newArray: bucket[] = [];
+
+        if (prevValues.length === 0) {
+          let productObject: bucket = {
+            name: article,
+            quantity: 1,
+          };
+          setQty(1);
+          newArray.push(productObject);
+          return newArray;
+        } else {
+          for (let x of prevValues) {
+            if (x.name === article) {
+              let productObject: bucket = {
+                name,
+                quantity: ++x.quantity,
+              };
+              setQty((prev) => ++prev);
+              prevValues.splice(prevValues.indexOf(x), 1, productObject);
+              return prevValues;
+            } else {
+              if (prevValues.indexOf(x) < prevValues.length - 1) continue;
+              let productObject: bucket = {
+                name: article,
+                quantity: 1,
+              };
+              setQty(1);
+              return [...prevValues, productObject];
+            }
+          }
+        }
+      });
     }
+  };
+
+  const display = (id: string) => {
+    numArticles!.forEach((x) => {
+      if (x.name === id) {
+        return x.quantity;
+      } else return 0;
+    });
   };
 
   return (
     <BigWrapper>
       <CardWrapper>
-        {name === "Mela" && (
-          <img width="256px" height="256px" src={mela} alt="mela" />
-        )}
-        {name === "Pera" && (
-          <img width="256px" height="256px" src={pera} alt="pera" />
-        )}
-        {name === "Banana" && (
-          <img width="256px" height="256px" src={banana} alt="banana" />
-        )}
         <Title>{name}</Title>
         <Price>{price} €</Price>
       </CardWrapper>
       <Purchase id={name}>
-        <MyButton onClick={handleClick}>-</MyButton>
-        <Quantity>
-          {name === "Mela" && numApples}
-          {name === "Pera" && numPears}
-          {name === "Banana" && numBananas}
-        </Quantity>
+        <MyButton onClick={handleClick} disabled={qty === 0}>
+          -
+        </MyButton>
+        <Quantity>{qty}</Quantity>
         <MyButton onClick={handleClick}>+</MyButton>
       </Purchase>
     </BigWrapper>
