@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { SET_ELEMENTS, shopAPI } from "../../app/shopSlice";
+import { SET_ELEMENTS, ShopAPI } from "../../app/shopSlice";
 import Card from "../../content/card/Card";
 import style from './contents.module.css'
 
@@ -8,8 +8,6 @@ const Contents = () => {
 
     const {shop} = useAppSelector(state => state.shop)
     const dispatch = useAppDispatch()
-    console.log(shop)
-
 
     useEffect(()=>{
         dispatch({ type: "SET_ELEMENTS"})
@@ -19,19 +17,15 @@ const Contents = () => {
         }  
     },[])
     return (
-<div className={style.container}> 
-    <div>{shop.map((elem, index) => {
+<div className={style.container}>
+    <div className={style.containerCard}>
+        {shop.map((elem) => {
         return ( 
-            <div key={index} className={style.container_cards}>
-                {elem.map((elem1, index1) => {
-                    return (
-                        <Card price={elem1.price} name={elem1.name}></Card>
-                    )
-                })}
-                </div>
+        <Card price={elem.price} name={elem.name}></Card>
         )
         
-        })}</div>
+        })}
+        </div>
 </div>
 
     )

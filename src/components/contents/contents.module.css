@@ -1,13 +1,13 @@
 .container{
     width: 80%;
     height: 600px;
+    display: flex;
+    flex-direction: row;
 }
 
-.container_cards{
-margin-top: 50px;
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-justify-content: space-evenly;
-
+.containerCard{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
