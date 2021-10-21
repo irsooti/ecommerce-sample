@@ -88,10 +88,10 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
         }
       });
     } else {
-      setNumArticles((prevValues: any): any => {
+      setNumArticles((prevValues: bucket[] | undefined) => {
         let newArray: bucket[] = [];
 
-        if (prevValues.length === 0) {
+        if (prevValues!.length === 0) {
           let productObject: bucket = {
             name: article,
             quantity: 1,
@@ -100,23 +100,23 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
           newArray.push(productObject);
           return newArray;
         } else {
-          for (let x of prevValues) {
+          for (let x of prevValues!) {
             if (x.name === article) {
               let productObject: bucket = {
                 name,
                 quantity: ++x.quantity,
               };
               setQty((prev) => ++prev);
-              prevValues.splice(prevValues.indexOf(x), 1, productObject);
+              prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
               return prevValues;
             } else {
-              if (prevValues.indexOf(x) < prevValues.length - 1) continue;
+              if (prevValues!.indexOf(x) < prevValues!.length - 1) continue;
               let productObject: bucket = {
                 name: article,
                 quantity: 1,
               };
               setQty(1);
-              return [...prevValues, productObject];
+              return [...prevValues!, productObject];
             }
           }
         }
