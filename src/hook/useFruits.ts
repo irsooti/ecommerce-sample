@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-interface fruitInt {
+export interface fruitInt {
   price: number;
   name: string;
 }

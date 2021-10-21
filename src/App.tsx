@@ -1,18 +1,19 @@
-import React, { createContext } from "react";
-import { useState, useEffect } from "react";
+import React, { createContext, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import useFruits from "./hook/useFruits";
 import Card from "./components/Card";
 import styled from "styled-components";
 // import { useRef } from "react";
 
+export interface bucket {
+  name: string;
+  quantity: number;
+}
+
 interface contextInt {
-  numApples: number;
-  setNumApples: React.Dispatch<React.SetStateAction<number>>;
-  numPears: number;
-  setNumPears: React.Dispatch<React.SetStateAction<number>>;
-  numBananas: number;
-  setNumBananas: React.Dispatch<React.SetStateAction<number>>;
+  numArticles: bucket[];
+  setNumArticles: React.Dispatch<React.SetStateAction<bucket[]>>;
   showTotal: boolean;
   setShowTotal: React.Dispatch<React.SetStateAction<boolean>>;
   total: number;
@@ -41,12 +42,8 @@ const Add = styled.button`
 `;
 
 export const context = createContext<contextInt>({
-  numApples: 0,
-  setNumApples: () => null,
-  numPears: 0,
-  setNumPears: () => null,
-  numBananas: 0,
-  setNumBananas: () => null,
+  numArticles: [],
+  setNumArticles: () => null,
   showTotal: false,
   setShowTotal: () => null,
   total: 0,
@@ -58,48 +55,47 @@ export const context = createContext<contextInt>({
 });
 
 const App: React.FC = (): JSX.Element => {
-  const [numApples, setNumApples] = useState<number>(0);
-  const [numPears, setNumPears] = useState<number>(0);
-  const [numBananas, setNumBananas] = useState<number>(0);
+  const data = useFruits();
+
+  const [numArticles, setNumArticles] = useState<bucket[]>([]);
+
   const [showTotal, setShowTotal] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
   const [clicked, setClicked] = useState<boolean>(false);
   const [overall, setOverall] = useState<number>(0);
   // const totale = useRef<number>(0);
-  const data = useFruits();
+
+  useEffect(() => {
+    console.log(numArticles);
+  }, [numArticles]);
+
+  const calculate = () => {
+    const prices = data.map((x) => x.price);
+    // console.log(prices);
+
+    numArticles.forEach((x) => {});
+  };
 
   const add2Cart = () => {
-    const prices = data.map((x) => x.price);
-    console.log(prices);
-    const array = [numPears, numApples, numBananas];
-    // const ov = prices.reduce((acc, current, i) => {
-    //   console.log(array[i]);
+    setTotal(() => {
+      let t = 0;
+      numArticles.forEach((x) => {
+        t += x.quantity;
+      });
+      return t;
+    });
 
-    //   return current * array[i] + acc;
-    // });
-    let ov = 0;
-    for (let i in prices) {
-      ov += prices[i] * array[i];
-    }
-    console.log(ov);
-
-    setTotal(numPears + numApples + numBananas);
-    // totale.current = numPears + numApples + numBananas;
     setShowTotal(true);
     setClicked(true);
-    setOverall(ov);
+    // setOverall(ov);
   };
 
   return (
     <div className="myBody">
       <context.Provider
         value={{
-          numApples,
-          setNumApples,
-          numPears,
-          setNumPears,
-          numBananas,
-          setNumBananas,
+          numArticles,
+          setNumArticles,
           showTotal,
           setShowTotal,
           total,

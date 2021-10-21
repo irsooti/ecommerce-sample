@@ -55,22 +55,17 @@ const Checkout = styled.button`
 `;
 
 const Navbar = () => {
-  const {
-    numApples,
-    numPears,
-    numBananas,
-    showTotal,
-    total,
-    setShowTotal,
-    clicked,
-    overall,
-    setOverall,
-  } = useContext(context);
+  const { showTotal, total, setShowTotal, clicked, overall, setOverall } =
+    useContext(context);
   const [showCart, setShowCart] = useState<boolean>(false);
 
-  if (total === 0) {
-    setShowTotal(false);
-  }
+  // if (total === 0) {
+  //   setShowTotal(false);
+  // }
+
+  useEffect(() => {
+    console.log(total);
+  }, [total]);
 
   const handleClick = () => {
     setShowCart(!showCart);
@@ -80,9 +75,6 @@ const Navbar = () => {
     const options = {
       method: "POST",
       body: JSON.stringify({
-        pere: numPears,
-        mele: numApples,
-        banane: numBananas,
         totale: overall,
       }),
     };
@@ -98,9 +90,6 @@ const Navbar = () => {
       {showTotal && <Total>{total}</Total>}
       {showCart && clicked && (
         <Products>
-          {numPears > 0 && <div>Pera: {numPears}</div>}
-          {numApples > 0 && <div>Mela: {numApples}</div>}
-          {numBananas > 0 && <div>Banana: {numBananas}</div>}
           <div>OVERALL: {overall} €</div>
           <Checkout onClick={() => handleCheckout()}>Checkout</Checkout>
         </Products>
