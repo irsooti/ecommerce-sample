@@ -2,3 +2,12 @@
     width: 80%;
     height: 600px;
 }
+
+.container_cards{
+margin-top: 50px;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: space-evenly;
+
+}
