@@ -23,6 +23,8 @@ interface contextInt {
   setClicked: React.Dispatch<React.SetStateAction<boolean>>;
   overall: number;
   setOverall: React.Dispatch<React.SetStateAction<number>>;
+  checkedOut: boolean;
+  setCheckedOut: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Container = styled.div`
@@ -53,6 +55,8 @@ export const context = createContext<contextInt>({
   setClicked: () => null,
   overall: 0,
   setOverall: () => null,
+  checkedOut: false,
+  setCheckedOut: () => null,
 });
 
 const App: React.FC = (): JSX.Element => {
@@ -65,6 +69,7 @@ const App: React.FC = (): JSX.Element => {
   const [clicked, setClicked] = useState<boolean>(false);
   const [overall, setOverall] = useState<number>(0);
   // const totale = useRef<number>(0);
+  const [checkedOut, setCheckedOut] = useState<boolean>(false);
 
   useEffect(() => {
     console.log(numArticles);
@@ -110,6 +115,8 @@ const App: React.FC = (): JSX.Element => {
           setClicked,
           overall,
           setOverall,
+          checkedOut,
+          setCheckedOut,
         }}
       >
         <Navbar />

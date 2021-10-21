@@ -60,9 +60,12 @@ const Navbar = () => {
     setNumArticles,
     showTotal,
     total,
+    setTotal,
+    setShowTotal,
     clicked,
     overall,
     setOverall,
+    setCheckedOut,
   } = useContext(context);
   const [showCart, setShowCart] = useState<boolean>(false);
 
@@ -92,6 +95,15 @@ const Navbar = () => {
     fetch("/buy", options).then((res: Response) => {
       alert(res.status);
     });
+    setNumArticles([]);
+    setTotal(0);
+    setShowTotal(false);
+    setShowCart(false);
+    setOverall(0);
+    setCheckedOut(true);
+    setTimeout(() => {
+      setCheckedOut(false);
+    }, 1000);
   };
 
   return (

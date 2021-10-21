@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { context } from "../../App";
 import { bucket } from "../../App";
 
@@ -58,17 +58,21 @@ const Quantity = styled.div`
   border-radius: 5px;
   margin-left: 5px;
   text-align: center;
-  cursor: pointer;
   box-shadow: none;
 `;
 
 const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
-  const { numArticles, setNumArticles } = useContext(context);
+  const { numArticles, setNumArticles, checkedOut } = useContext(context);
 
   const [qty, setQty] = useState<number>(0);
 
+  useEffect(() => {
+    setQty(0);
+  }, [checkedOut]);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     let article = event.currentTarget.parentElement!.id;
+
     if (event.currentTarget.textContent === "-") {
       setNumArticles((prevValues: bucket[] | undefined) => {
         for (let x of prevValues!) {
@@ -94,7 +98,6 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
           };
           setQty(1);
           newArray.push(productObject);
-
           return newArray;
         } else {
           for (let x of prevValues) {
@@ -136,7 +139,9 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
         <Price>{price} €</Price>
       </CardWrapper>
       <Purchase id={name}>
-        <MyButton onClick={handleClick}>-</MyButton>
+        <MyButton onClick={handleClick} disabled={qty === 0}>
+          -
+        </MyButton>
         <Quantity>{qty}</Quantity>
         <MyButton onClick={handleClick}>+</MyButton>
       </Purchase>
