@@ -98,7 +98,9 @@ const Navbar = () => {
             numArticles.map((x) => {
               return (
                 <div>
-                  {x.name} {x.quantity}
+                  {x.name}{" "}
+                  <span style={{ color: "grey", fontSize: "1.3rem" }}>x</span>{" "}
+                  {x.quantity}
                 </div>
               );
             })}
