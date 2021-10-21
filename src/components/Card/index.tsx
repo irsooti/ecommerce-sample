@@ -71,16 +71,17 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
     let article = event.currentTarget.parentElement!.id;
     if (event.currentTarget.textContent === "-") {
       setNumArticles((prevValues: any) => {
-        let oldArray = [...prevValues];
-        let newArray = oldArray.map((x: bucket) => {
-          console.log(typeof prevValues);
+        for (let x of prevValues) {
           if (x.name === article) {
-            if (x.quantity > 0) x.quantity = x.quantity - 1;
+            let productObject: bucket = {
+              name,
+              quantity: x.quantity - 1,
+            };
+            setQty((prev) => --prev);
+            prevValues.splice(prevValues.indexOf(x), 1, productObject);
+            return prevValues;
           }
-          return x;
-        });
-        console.log(newArray);
-        return newArray;
+        }
       });
     } else {
       setNumArticles((prevValues: any): any => {
