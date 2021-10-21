@@ -70,15 +70,15 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     let article = event.currentTarget.parentElement!.id;
     if (event.currentTarget.textContent === "-") {
-      setNumArticles((prevValues: any) => {
-        for (let x of prevValues) {
-          if (x.name === article) {
+      setNumArticles((prevValues: bucket[] | undefined) => {
+        for (let x of prevValues!) {
+          if (x.name === article && x.quantity > 0) {
             let productObject: bucket = {
               name,
-              quantity: x.quantity - 1,
+              quantity: --x.quantity,
             };
             setQty((prev) => --prev);
-            prevValues.splice(prevValues.indexOf(x), 1, productObject);
+            prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
             return prevValues;
           }
         }
@@ -101,7 +101,7 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
             if (x.name === article) {
               let productObject: bucket = {
                 name,
-                quantity: x.quantity + 1,
+                quantity: ++x.quantity,
               };
               setQty((prev) => ++prev);
               prevValues.splice(prevValues.indexOf(x), 1, productObject);
@@ -122,7 +122,7 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
   };
 
   const display = (id: string) => {
-    numArticles.forEach((x) => {
+    numArticles!.forEach((x) => {
       if (x.name === id) {
         return x.quantity;
       } else return 0;

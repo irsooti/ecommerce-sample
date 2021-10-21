@@ -13,8 +13,8 @@ export interface bucket {
 }
 
 interface contextInt {
-  numArticles: bucket[];
-  setNumArticles: React.Dispatch<React.SetStateAction<bucket[]>>;
+  numArticles: bucket[] | undefined;
+  setNumArticles: React.Dispatch<React.SetStateAction<bucket[] | undefined>>;
   showTotal: boolean;
   setShowTotal: React.Dispatch<React.SetStateAction<boolean>>;
   total: number;
@@ -43,7 +43,7 @@ const Add = styled.button`
 `;
 
 export const context = createContext<contextInt>({
-  numArticles: [],
+  numArticles: [{ name: "", quantity: 0 }],
   setNumArticles: () => null,
   showTotal: false,
   setShowTotal: () => null,
@@ -58,7 +58,7 @@ export const context = createContext<contextInt>({
 const App: React.FC = (): JSX.Element => {
   const data = useFruits();
 
-  const [numArticles, setNumArticles] = useState<bucket[]>([]);
+  const [numArticles, setNumArticles] = useState<bucket[] | undefined>([]);
 
   const [showTotal, setShowTotal] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
@@ -73,7 +73,7 @@ const App: React.FC = (): JSX.Element => {
   const calculate = (): number => {
     let ov = 0;
     for (let x of data) {
-      for (let y of numArticles) {
+      for (let y of numArticles!) {
         if (y.name === x.name) {
           ov += y.quantity * x.price;
         }
@@ -85,7 +85,7 @@ const App: React.FC = (): JSX.Element => {
   const add2Cart = () => {
     setTotal(() => {
       let t = 0;
-      numArticles.forEach((x) => {
+      numArticles!.forEach((x) => {
         t += x.quantity;
       });
       return t;
