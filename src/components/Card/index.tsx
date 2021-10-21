@@ -38,7 +38,7 @@ const Purchase = styled.div`
 `;
 
 const MyButton = styled.button`
-  width: 1rem;
+  width: 2rem;
   padding: 3px;
   background-color: pink;
   border: pink;
@@ -47,6 +47,8 @@ const MyButton = styled.button`
   text-align: center;
   cursor: pointer;
   box-shadow: none;
+  font-size: 1.5rem;
+  font-weight: bold;
 `;
 
 const Quantity = styled.div`
@@ -75,15 +77,17 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
 
     if (event.currentTarget.textContent === "-") {
       setNumArticles((prevValues: bucket[] | undefined) => {
-        for (let x of prevValues!) {
-          if (x.name === article && x.quantity > 0) {
-            let productObject: bucket = {
-              name,
-              quantity: --x.quantity,
-            };
-            setQty((prev) => --prev);
-            prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
-            return prevValues;
+        if (prevValues!.length !== 0) {
+          for (let x of prevValues!) {
+            if (x.name === article && x.quantity > 0) {
+              let productObject: bucket = {
+                name,
+                quantity: --x.quantity,
+              };
+              setQty((prev) => --prev);
+              prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
+              return prevValues;
+            }
           }
         }
       });

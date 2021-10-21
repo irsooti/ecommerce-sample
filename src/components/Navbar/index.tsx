@@ -36,10 +36,11 @@ const Products = styled.div`
   position: absolute;
   width: 250px;
   height: 300px;
-  border: 2px solid whitesmoke;
+  border: 2px solid grey;
   right: 0px;
   top: 80px;
   background-color: white;
+  border-radius: 5px;
 `;
 
 const Checkout = styled.button`
@@ -73,13 +74,13 @@ const Navbar = () => {
   //   setShowTotal(false);
   // }
 
-  useEffect(() => {
-    console.log(total);
-  }, [total]);
+  // useEffect(() => {
+  //   console.log(total);
+  // }, [total]);
 
-  useEffect(() => {
-    console.log(numArticles);
-  }, [numArticles]);
+  // useEffect(() => {
+  //   console.log(numArticles);
+  // }, [numArticles]);
 
   const handleClick = () => {
     setShowCart(!showCart);

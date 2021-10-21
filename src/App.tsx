@@ -71,12 +71,14 @@ const App: React.FC = (): JSX.Element => {
   // const totale = useRef<number>(0);
   const [checkedOut, setCheckedOut] = useState<boolean>(false);
 
-  useEffect(() => {
-    console.log(numArticles);
-  }, [numArticles]);
+  // useEffect(() => {
+  //   console.log(numArticles);
+  // }, [numArticles]);
 
   const calculate = (): number => {
     let ov = 0;
+    console.log(numArticles);
+
     for (let x of data) {
       for (let y of numArticles!) {
         if (y.name === x.name) {
@@ -88,11 +90,16 @@ const App: React.FC = (): JSX.Element => {
   };
 
   const add2Cart = () => {
+    // console.log(numArticles);
     setTotal(() => {
       let t = 0;
-      numArticles!.forEach((x) => {
-        t += x.quantity;
-      });
+      if (numArticles) {
+        if (numArticles.length !== 0) {
+          numArticles!.forEach((x) => {
+            t += x.quantity;
+          });
+        }
+      }
       return t;
     });
     let overall = calculate();
