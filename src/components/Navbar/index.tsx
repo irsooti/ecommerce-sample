@@ -55,7 +55,7 @@ const Checkout = styled.button`
 `;
 
 const Navbar = () => {
-  const { showTotal, total, setShowTotal, clicked, overall, setOverall } =
+  const { numArticles, showTotal, total, setShowTotal, clicked, overall } =
     useContext(context);
   const [showCart, setShowCart] = useState<boolean>(false);
 
@@ -66,6 +66,10 @@ const Navbar = () => {
   useEffect(() => {
     console.log(total);
   }, [total]);
+
+  useEffect(() => {
+    console.log(numArticles);
+  }, [numArticles]);
 
   const handleClick = () => {
     setShowCart(!showCart);
@@ -90,6 +94,14 @@ const Navbar = () => {
       {showTotal && <Total>{total}</Total>}
       {showCart && clicked && (
         <Products>
+          {numArticles.length > 0 &&
+            numArticles.map((x) => {
+              return (
+                <div>
+                  {x.name} {x.quantity}
+                </div>
+              );
+            })}
           <div>OVERALL: {overall} €</div>
           <Checkout onClick={() => handleCheckout()}>Checkout</Checkout>
         </Products>

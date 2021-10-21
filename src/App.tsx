@@ -5,6 +5,7 @@ import useFruits from "./hook/useFruits";
 import Card from "./components/Card";
 import styled from "styled-components";
 // import { useRef } from "react";
+import { fruitInt } from "./hook/useFruits";
 
 export interface bucket {
   name: string;
@@ -69,11 +70,16 @@ const App: React.FC = (): JSX.Element => {
     console.log(numArticles);
   }, [numArticles]);
 
-  const calculate = () => {
-    const prices = data.map((x) => x.price);
-    // console.log(prices);
-
-    numArticles.forEach((x) => {});
+  const calculate = (): number => {
+    let ov = 0;
+    for (let x of data) {
+      for (let y of numArticles) {
+        if (y.name === x.name) {
+          ov += y.quantity * x.price;
+        }
+      }
+    }
+    return ov;
   };
 
   const add2Cart = () => {
@@ -84,10 +90,10 @@ const App: React.FC = (): JSX.Element => {
       });
       return t;
     });
-
+    let overall = calculate();
     setShowTotal(true);
     setClicked(true);
-    // setOverall(ov);
+    setOverall(overall);
   };
 
   return (
