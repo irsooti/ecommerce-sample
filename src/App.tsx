@@ -75,9 +75,13 @@ const App: React.FC = (): JSX.Element => {
   //   console.log(numArticles);
   // }, [numArticles]);
 
+  useEffect(() => {
+    console.log(numArticles);
+    return;
+  }, [numArticles])
+
   const calculate = (): number => {
     let ov = 0;
-    console.log(numArticles);
 
     for (let x of data) {
       for (let y of numArticles!) {
@@ -91,7 +95,9 @@ const App: React.FC = (): JSX.Element => {
 
   const add2Cart = () => {
     // console.log(numArticles);
-    setTotal(() => {
+    
+    if (numArticles) {
+      setTotal(() => {
       let t = 0;
       if (numArticles) {
         if (numArticles.length !== 0) {
@@ -103,9 +109,11 @@ const App: React.FC = (): JSX.Element => {
       return t;
     });
     let overall = calculate();
+  }
     setShowTotal(true);
     setClicked(true);
     setOverall(overall);
+    
   };
 
   return (
