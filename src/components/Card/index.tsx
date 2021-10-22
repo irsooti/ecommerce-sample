@@ -3,6 +3,7 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { context } from "../../App";
 import { bucket } from "../../App";
+import { EEXIST } from "constants";
 
 export interface cardInt {
   name: string;
@@ -77,6 +78,7 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
   }, [virtualCart]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     let article = event.currentTarget.parentElement!.id;
 
     if (event.currentTarget.textContent === "-") {
@@ -119,7 +121,9 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
                 name,
                 quantity: ++x.quantity,
               };
-              setQty((prev) => ++prev);
+              console.log(qty);
+
+              setQty(x.quantity);
               prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
               return prevValues;
             } else {

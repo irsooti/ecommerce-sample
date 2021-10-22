@@ -8,8 +8,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // <React.StrictMode>   //HO DISABILITATO LA STRICT MODE PERCHE' MI ESEGUE IL SET STATE DUE VOLTE, CAUSANDO ANOMALIE SUL COUNTER
+  <App />,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
