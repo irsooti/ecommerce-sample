@@ -1,26 +1,80 @@
 .container{
-    width: 20%;
-    height: 400px;
-    background-color: red;
+    width: 30%;
+    background-color: #B1E693;
+    top: 0;
+}
+
+.otherContainer{
+    margin:10px
 }
 
 .Title{
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     text-align: center;
-    margin-top: 10px;
-}
-
-.elemets{
-   margin: 10px
+    margin-top: 20px;
 }
 .containerElement{
+    margin-top: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
+.elemName{
+    width: 20%;
+    text-align: left;
+}
+
+.priceCss{
+    text-align: right;
+    width: 20%;
+}
+
+.containerQuant {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.symbol{
+    text-align: center;
+    background-color: #EC9CD3;
+    width: 25px;
+    height: 25px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.qta{
+    text-align: center;
+}
+
 .containerBottom{
-    align-items: flex-end;
-    margin: 10px
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.containerElement2{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.container_Checkout{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.finish{
+    margin-right: 5px;
+}
+.checkout{
+    text-decoration: underline;
+    font-weight: bold;
+    cursor: pointer;
 }

@@ -1,5 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit"
-import { addSyntheticLeadingComment } from "typescript";
+import { createSlice } from "@reduxjs/toolkit"
 
 export interface ShopAPI {
     price: number,
@@ -15,12 +14,15 @@ export interface Added {
 interface initialState {
     shop: ShopAPI[],
     added: Added[],
+    text: string
+    
 }
 
 
 const initial: initialState = {
     shop: [],
-    added: []
+    added: [],
+    text: "Grazie mille per aver acquistato da noi!"
 }
 
 const shopSlice = createSlice({
@@ -34,72 +36,36 @@ const shopSlice = createSlice({
             state.shop = [];
         },
         ADD_CART: (state, action) => {
-
-            //funzione litigio
-
-            // if (state.added.length > 0) {
-                // state.added.push(action.payload)
-                // const temp = current(state.added)
-                // const findCurrentEl = temp.filter((el) => el.name !== action.payload.name)
-                // findCurrentEl.push(action.payload);
-
-
-
-
-
-
-
-
-                
-            //     state.added = state.added.map((el) => {
-            //         if(el.name===action.payload.name){
-            //             return {...el, quantity:action.payload.quantity}
-            //         } else {
-            //             return el
-            //         }
-            //     });
-            // } else {
-            //     state.added.push(action.payload)
-            // }
-
-
-
-
-
-
-
-
-
-
-
-
-            // if(state.added.length>0){
-            //     const temp = current(state.added)
-            //      temp.map((el, index)=>{
-            //          if(el.name===action.payload.name){
-            //              el.quantity = 10;
-                         
-                       
-            //          } else {
-            //              state.added.push(action.payload)
-            //          }
-            //      }) 
-            //     }
-
+        const indexFounded = state.added.findIndex(el => el.name === action.payload.name);
+        if (indexFounded >= 0) state.added[indexFounded].quantity = action.payload.quantity
+        else state.added.push(action.payload)
         },
-        REMOVE_CART: (state, action) => {
-            const temp = current(state.added)
-            const findCurrentEl = temp.filter((el) => el.name !== action.payload.name)
-            console.log(findCurrentEl)
-            state.added = findCurrentEl;
+    
+        ADD_ONE: (state, action) => {
+        const indexFounded = state.added.findIndex(el => el.name === action.payload.name);
+        if (indexFounded >= 0) state.added[indexFounded].quantity = action.payload.quantity
+        else state.added.push(action.payload)
+         },
+
+        MINUS_ONE: (state, action) => {
+        const indexFounded = state.added.findIndex(el => el.name === action.payload.name);
+        if (indexFounded >= 0) state.added[indexFounded].quantity = action.payload.quantity
+        else state.added.push(action.payload)
         },
-        CHECKOUT: (state, action) => {
-            state.added = []
+
+        CLEAN_CART: (state, action) => {
+        state.added = [];
+        },
+
+        RM_FROM_CART:(state,action) => {
+            console.log(action.payload)
+            const indexFounded = state.added.findIndex(el => el.name === action.payload.name);
+            if (indexFounded >= 0) state.added.splice(indexFounded, 1)
         },
     }
 
 })
 
 
-export const { SET_ELEMENTS, RESET_ELEMENTS, ADD_CART, CHECKOUT, REMOVE_CART } = shopSlice.actions
+export const { SET_ELEMENTS, RESET_ELEMENTS, ADD_CART, CLEAN_CART, ADD_ONE, MINUS_ONE, RM_FROM_CART } = shopSlice.actions
 export default shopSlice.reducer

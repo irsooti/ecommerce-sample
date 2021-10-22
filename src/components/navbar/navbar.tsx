@@ -1,12 +1,14 @@
-import React from "react";
 import style from './navbar.module.css'
-
+const {prova_css, titile} = style
 
 const Navbar = () => {
 
     return (
 
-        <div className={style.prova_css}></div>
+        <div className={prova_css}>
+        <div className={titile}>Alice's Market</div>
+
+        </div>
 
     )
 

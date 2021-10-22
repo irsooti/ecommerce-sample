@@ -1,35 +1,47 @@
 .container{
     margin: 20px;
-    background-color: yellowgreen;
+    background-color: rgba(236, 156, 211, 0.6);
     width:  200px;
     height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
+}
+
+.container:hover{
+    transition: 0.4s;
+    background-color: rgba(236, 156, 211, 0.8)
 }
 
 .img{
     width: 80%;
     height: 50%;
     align-items: center;
+    border-radius: 10px;
 }
 
 .scritta{
+    margin-top: 10px;
     width: 80%;
     height: 40%;
     display: flex;
     flex-direction: column;
 }
-.add{
-    color: purple;
-
+.link{
+    color: rgb(21, 105, 58);
+    margin-top: 5px;
+    font-weight: bold;
+    cursor: pointer;
 }
-.add:hover{
-    color: pink;
+.linkRm{
+    color: rgb(160, 25, 25);
+    margin-top: 5px;
+    font-weight: bold;
     cursor: pointer;
 }
 
-.nome, .add {
+.nome, .prezzo{
     margin-top: 5px;
 }

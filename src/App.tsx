@@ -5,13 +5,13 @@ import Contents from './components/contents/contents';
 
 function App() {
   return (
-    <div>
-<Navbar/>
-<div className={style.container}>
-<Cart/>
-<Contents/>
-</div>
-</div>
+    <>
+      <Navbar />
+      <div className={style.container}>
+        <Cart />
+        <Contents />
+      </div>
+    </>
   );
 }
 
