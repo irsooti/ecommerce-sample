@@ -57,8 +57,9 @@ const Checkout = styled.button`
 
 const Navbar = () => {
   const {
-    numArticles,
-    setNumArticles,
+    virtualCart,
+    setVirtualCart,
+    cart,
     showTotal,
     total,
     setTotal,
@@ -69,18 +70,6 @@ const Navbar = () => {
     setCheckedOut,
   } = useContext(context);
   const [showCart, setShowCart] = useState<boolean>(false);
-
-  // if (total === 0) {
-  //   setShowTotal(false);
-  // }
-
-  // useEffect(() => {
-  //   console.log(total);
-  // }, [total]);
-
-  // useEffect(() => {
-  //   console.log(numArticles);
-  // }, [numArticles]);
 
   const handleClick = () => {
     setShowCart(!showCart);
@@ -96,7 +85,7 @@ const Navbar = () => {
     fetch("/buy", options).then((res: Response) => {
       alert(res.status);
     });
-    setNumArticles([]);
+    setVirtualCart([]);
     setTotal(0);
     setShowTotal(false);
     setShowCart(false);
@@ -114,8 +103,8 @@ const Navbar = () => {
       {showTotal && <Total>{total}</Total>}
       {showCart && clicked && (
         <Products>
-          {numArticles!.length > 0 &&
-            numArticles!.map((x) => {
+          {cart!.length > 0 &&
+            cart!.map((x) => {
               return (
                 <div>
                   {x.name}{" "}

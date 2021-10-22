@@ -64,79 +64,78 @@ const Quantity = styled.div`
 `;
 
 const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
-  const { numArticles, setNumArticles, checkedOut } = useContext(context);
+  const { virtualCart, setVirtualCart, checkedOut } = useContext(context);
 
   const [qty, setQty] = useState<number>(0);
 
   useEffect(() => {
-    setQty(0);
+    if (checkedOut) setQty(0);
   }, [checkedOut]);
+
+  useEffect(() => {
+    console.log(virtualCart);
+  }, [virtualCart]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     let article = event.currentTarget.parentElement!.id;
 
     if (event.currentTarget.textContent === "-") {
-      setNumArticles((prevValues: bucket[] | undefined) => {
-        if (numArticles) {
-          if (prevValues!.length !== 0) {
-            for (let x of prevValues!) {
-              if (x.name === article && x.quantity > 0) {
-                let productObject: bucket = {
-                  name,
-                  quantity: --x.quantity,
-                };
-                setQty((prev) => --prev);
-                prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
-                return prevValues;
-              }
+      setVirtualCart((prevValues: bucket[] | undefined) => {
+        let oldArray: bucket[] = [...prevValues!];
+        if (oldArray!.length > 0) {
+          for (let x of oldArray!) {
+            if (x.name === article && x.quantity > 0) {
+              let productObject: bucket = {
+                name,
+                quantity: --x.quantity,
+              };
+              setQty((prev) => --prev);
+              oldArray!.splice(oldArray!.indexOf(x), 1, productObject);
+              return oldArray;
+            } else if (x.quantity === 0) {
+              setQty(0);
+              oldArray!.splice(oldArray!.indexOf(x), 1);
+              return oldArray;
             }
           }
         }
-        //ELSE
-        else {
-          return [];
-        }
       });
     } else {
-      setNumArticles((prevValues: bucket[] | undefined) => {
+      setVirtualCart((prevValues: bucket[] | undefined) => {
         let newArray: bucket[] = [];
 
-        if (prevValues) {
-          if (prevValues!.length === 0) {
-            let productObject: bucket = {
-              name: article,
-              quantity: 1,
-            };
-            setQty(1);
-            newArray.push(productObject);
-            return newArray;
-          } else {
-            for (let x of prevValues!) {
-              if (x.name === article) {
-                let productObject: bucket = {
-                  name,
-                  quantity: ++x.quantity,
-                };
-                setQty((prev) => ++prev);
-                prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
-                return prevValues;
-              } else {
-                if (prevValues!.indexOf(x) < prevValues!.length - 1) continue;
-                let productObject: bucket = {
-                  name: article,
-                  quantity: 1,
-                };
-                setQty(1);
-                return [...prevValues!, productObject];
-              }
+        if (prevValues!.length === 0) {
+          let productObject: bucket = {
+            name: article,
+            quantity: 1,
+          };
+          setQty(1);
+          newArray.push(productObject);
+          return newArray;
+        } else {
+          for (let x of prevValues!) {
+            if (x.name === article) {
+              let productObject: bucket = {
+                name,
+                quantity: ++x.quantity,
+              };
+              setQty((prev) => ++prev);
+              prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
+              return prevValues;
+            } else {
+              if (prevValues!.indexOf(x) < prevValues!.length - 1) continue;
+              let productObject: bucket = {
+                name: article,
+                quantity: 1,
+              };
+              setQty(1);
+              return [...prevValues!, productObject];
             }
-        }}
-        //ELSE
-        else {
-          return [];
+          }
         }
       });
-    }}
+    }
+  };
 
   return (
     <BigWrapper>
