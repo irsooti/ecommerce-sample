@@ -5,7 +5,6 @@ import useFruits from "./hook/useFruits";
 import Card from "./components/Card";
 import styled from "styled-components";
 // import { useRef } from "react";
-import { fruitInt } from "./hook/useFruits";
 
 export interface bucket {
   name: string;

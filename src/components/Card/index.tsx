@@ -3,7 +3,6 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { context } from "../../App";
 import { bucket } from "../../App";
-import { EEXIST } from "constants";
 
 export interface cardInt {
   name: string;
