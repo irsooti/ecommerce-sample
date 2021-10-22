@@ -3,6 +3,7 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { context } from "../../App";
 import { bucket } from "../../App";
+import { EEXIST } from "constants";
 
 export interface cardInt {
   name: string;
@@ -64,35 +65,45 @@ const Quantity = styled.div`
 `;
 
 const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
-  const { numArticles, setNumArticles, checkedOut } = useContext(context);
+  const { virtualCart, setVirtualCart, checkedOut } = useContext(context);
 
   const [qty, setQty] = useState<number>(0);
 
   useEffect(() => {
-    setQty(0);
+    if (checkedOut) setQty(0);
   }, [checkedOut]);
 
+  useEffect(() => {
+    console.log(virtualCart);
+  }, [virtualCart]);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     let article = event.currentTarget.parentElement!.id;
 
     if (event.currentTarget.textContent === "-") {
-      setNumArticles((prevValues: bucket[] | undefined) => {
-        if (prevValues!.length !== 0) {
-          for (let x of prevValues!) {
+      setVirtualCart((prevValues: bucket[] | undefined) => {
+        let oldArray: bucket[] = [...prevValues!];
+        if (oldArray!.length > 0) {
+          for (let x of oldArray!) {
             if (x.name === article && x.quantity > 0) {
               let productObject: bucket = {
                 name,
                 quantity: --x.quantity,
               };
               setQty((prev) => --prev);
-              prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
-              return prevValues;
+              oldArray!.splice(oldArray!.indexOf(x), 1, productObject);
+              return oldArray;
+            } else if (x.quantity === 0) {
+              setQty(0);
+              oldArray!.splice(oldArray!.indexOf(x), 1);
+              return oldArray;
             }
           }
         }
       });
     } else {
-      setNumArticles((prevValues: bucket[] | undefined) => {
+      setVirtualCart((prevValues: bucket[] | undefined) => {
         let newArray: bucket[] = [];
 
         if (prevValues!.length === 0) {
@@ -110,7 +121,9 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
                 name,
                 quantity: ++x.quantity,
               };
-              setQty((prev) => ++prev);
+              console.log(qty);
+
+              setQty(x.quantity);
               prevValues!.splice(prevValues!.indexOf(x), 1, productObject);
               return prevValues;
             } else {
@@ -126,14 +139,6 @@ const Card: React.FC<cardInt> = ({ name, price }): JSX.Element => {
         }
       });
     }
-  };
-
-  const display = (id: string) => {
-    numArticles!.forEach((x) => {
-      if (x.name === id) {
-        return x.quantity;
-      } else return 0;
-    });
   };
 
   return (
